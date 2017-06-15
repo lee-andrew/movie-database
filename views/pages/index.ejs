@@ -1,0 +1,118 @@
+<html>
+    <head>
+        <title>Home</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/styles.css">
+         
+    </head>
+
+    <body id="toTop">
+    
+    <!-- sidebar-wrapper -->
+     <div id="wrapper" class="toggled">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper" >
+                    
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#toTop">
+                        Movies
+                    </a>
+                </li>
+                <% movies.forEach( function(movie) { %>
+                <li class="sidebar-movies">
+                    <a href="#<%= movie.imdbID %>"><%= movie.Title %></a>
+                </li>
+                <% }); %>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+            
+        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
+            <span id="toggle-icon" class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+    
+                    
+        <!-- Search box -->
+        <div class="container">
+            <div class="row search-form">
+            
+               <form id="search-submit" class="input-search2">
+                    <input type="text" name="search" placeholder="Search..." list="movie-datalist" autocomplete="off">
+                    <span class="input-search">
+                        <button type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>  
+                    </span>
+                      <datalist id="movie-datalist">
+                      <% movies.forEach( function(movie) { %>
+                        <option value="<%= movie.Title %>">
+                      <% }); %>
+                      </datalist>
+                </form>
+            
+            </div>
+        </div>
+        <!-- End of search box -->
+
+
+        <div class="container">
+            <h1 class="text-center">Movie Database</h1>
+            
+            <div id=list-options>
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">Options
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                  <li id="sort-imdb" role="presentation"><a role="menuitem" tabindex="-1" href="/?sortOrder=rating_desc">Sort by imdb Rating</a></li>
+                  <li id="sort-rt" role="presentation"><a role="menuitem" tabindex="-1" href="/?sortOrder=rating_desc_rt">Sort by Rotten Tomatoes Rating</a></li>
+                </ul>
+                <button class="btn btn-default" id="sort-order" type="button">
+                    <span id="sort-desc" class="glyphicon glyphicon-sort-by-order-alt"></span>
+                </button>
+              </div>
+            </div>
+
+            <% movies.forEach( function(movie) { %>
+            <a class="movie-link" id="<%= movie.imdbID %>" href=<%= "http://imdb.com/title/" + movie.imdbID %>>
+            <div class="media movie-list-item">
+                <div class="media-left">
+                    <div class="poster-container">
+                        <img class="media-object movie-poster" src=<%= movie.Poster %> />
+                    </div>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">
+                        <%= movie.Title %>
+                        <span class="badge"><%= movie.imdbRating %></span>
+                         <% for ( let i = 0; i < movie.Ratings.length; i++) { %>
+                            <% if (movie.Ratings[i].Source === "Rotten Tomatoes") { %>
+                                <span class="badge tomato-rating"><%= movie.Ratings[1].Value %></span>
+                                <% break; %>
+                            <% } %>
+                        <% } %>
+                    </h4>
+                    <div>
+                        <%= movie.Plot %>
+                    </div>
+                    <div class="released-date">
+                        Released: <%= movie.Released %>
+                    </div>
+                </div>
+            </div>
+            </a>
+            <% }); %>
+
+        </div>
+     </div>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="/js/submit_events.js"></script>
+        <script src="/js/click_events.js"></script>
+        <script src="/js/menu_toggle.js"></script>
+        <script src="/js/smooth_scroll.js"></script>
+    </body>
+</html>
+
